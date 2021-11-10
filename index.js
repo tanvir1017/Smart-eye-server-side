@@ -34,6 +34,7 @@ async function run() {
     // products get from api
     app.get("/products", async (req, res) => {
       const size = parseInt(req.query.size);
+      console.log(size);
       const cursor = productCollection.find({});
       let products;
       if (products) {
@@ -44,6 +45,22 @@ async function run() {
       res.json(products);
     });
 
+    // add product placed post
+    app.post("/products", async (req, res) => {
+      const product = req.body;
+      const result = await productCollection.insertOne(product);
+      res.json(result);
+      console.log(result);
+    });
+    // ordered product
+    app.get("/orders", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      console.log(query);
+      const cursor = ordersCollection.find(query);
+      const result = await cursor.toArray();
+      res.json(result);
+    });
     // single product
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
