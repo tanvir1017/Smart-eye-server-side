@@ -27,6 +27,7 @@ async function run() {
   try {
     await client.connect();
     const database = client.db("smartGlasses");
+    const usersCollection = database.collection("users");
     const productCollection = database.collection("products");
     const reviewCollection = database.collection("review");
     const ordersCollection = database.collection("orders");
@@ -56,7 +57,6 @@ async function run() {
     app.get("/orders", async (req, res) => {
       const email = req.query.email;
       const query = { email: email };
-      console.log(query);
       const cursor = ordersCollection.find(query);
       const result = await cursor.toArray();
       res.json(result);
@@ -66,6 +66,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const product = await productCollection.findOne(query);
+      res.json(product);
+    });
+    // delete product
+    app.delete("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const product = await productCollection.deleteOne(query);
       res.json(product);
     });
 
@@ -90,7 +97,45 @@ async function run() {
       const reviews = await cursor.toArray();
       res.send(reviews);
     });
-    // create a document to insert
+    // create a user
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const result = await usersCollection.insertOne(user);
+      console.log(result);
+    });
+
+    // upsert user by google
+    app.put("/users", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const options = { upsert: true };
+      const updateDoc = { $set: user };
+      const result = usersCollection.updateOne(filter, updateDoc, options);
+      console.log(result);
+      res.json(result);
+    });
+
+    // set admin
+    app.put("/users/admin", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateDoc = { $set: { role: "admin" } };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      console.log(result);
+      res.json(result);
+    });
+
+    // check admin status
+    app.get("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      let isAdmin = false;
+      if (user?.role === "admin") {
+        isAdmin = true;
+      }
+      res.json({ admin: isAdmin });
+    });
   } finally {
     // await client.close();
   }
