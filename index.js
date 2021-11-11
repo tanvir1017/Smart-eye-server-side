@@ -125,6 +125,7 @@ async function run() {
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
+      result.json(user);
     });
 
     // upsert user by google
@@ -143,6 +144,12 @@ async function run() {
       const filter = { email: user.email };
       const updateDoc = { $set: { role: "admin" } };
       const result = await usersCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
+    app.get("/users", async (req, res) => {
+      const cursor = usersCollection.find({});
+      const result = await cursor.toArray();
       res.json(result);
     });
 
