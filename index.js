@@ -35,10 +35,9 @@ async function run() {
     // products get from api
     app.get("/products", async (req, res) => {
       const size = parseInt(req.query.size);
-      console.log(size);
       const cursor = productCollection.find({});
       let products;
-      if (products) {
+      if (size) {
         products = await cursor.limit(size).toArray();
       } else {
         products = await cursor.toArray();
@@ -51,16 +50,42 @@ async function run() {
       const product = req.body;
       const result = await productCollection.insertOne(product);
       res.json(result);
-      console.log(result);
     });
-    // ordered product
+
+    // order get
     app.get("/orders", async (req, res) => {
+      const cursor = ordersCollection.find({});
+      const orders = await cursor.toArray();
+      res.json(orders);
+    });
+    // get order product by email
+    app.get("/email", async (req, res) => {
       const email = req.query.email;
       const query = { email: email };
       const cursor = ordersCollection.find(query);
       const result = await cursor.toArray();
       res.json(result);
     });
+
+    // delet form my cart
+    app.delete("/orders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const myCart = await ordersCollection.deleteOne(query);
+      res.json(myCart);
+    });
+
+    // app put
+    app.put("/orders", async (req, res) => {
+      const id = req.body._id;
+      const checked = req.body.checked;
+      const query = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const data = { $set: { status: checked } };
+      const result = await ordersCollection.updateOne(query, data, options);
+      res.json(result);
+    });
+
     // single product
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
@@ -88,7 +113,6 @@ async function run() {
       const review = req.body;
       const result = await reviewCollection.insertOne(review);
       res.json(result);
-      console.log(result);
     });
 
     // review get
@@ -101,7 +125,6 @@ async function run() {
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
-      console.log(result);
     });
 
     // upsert user by google
@@ -111,7 +134,6 @@ async function run() {
       const options = { upsert: true };
       const updateDoc = { $set: user };
       const result = usersCollection.updateOne(filter, updateDoc, options);
-      console.log(result);
       res.json(result);
     });
 
@@ -121,7 +143,6 @@ async function run() {
       const filter = { email: user.email };
       const updateDoc = { $set: { role: "admin" } };
       const result = await usersCollection.updateOne(filter, updateDoc);
-      console.log(result);
       res.json(result);
     });
 
