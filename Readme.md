@@ -4,20 +4,16 @@ Hi, I'm [Tanvir Hossain](https://github.com/mdtanvir037)! 👋
 
 I'm a Junior developer...
 
-# Smart Eye
+## [Smart Eye](https://smart-eye-glasses.web.app/)!
 
-Let's go the the Earth
+## features of server side
 
-## Live site link
-
-## https://smart-eye-glasses.web.app/
-
-## features
-
-- This is server side for this website
-- For build this server globally we use Heroku
-- The server is provide by Mongodb
-- We work for this server to build an amazing Online niceh product store
+- This is server side of the smart eye.
+- In this server side we maked some functionality using mongodb server.
+- You can post a review
+- You can add a product which is stored in mogodb altas.
+- You can delet product from server.
+- If admin want he can make another admin, user can't make admin because we make a role named by admin.
 
 ## 🛠 Developed by
 
@@ -38,10 +34,11 @@ node, express, mongodb, heroku
 
 ## Deployment
 
-To deploy this website we use the firebase and heroku.
+To deploy this website server we use heroku.
 
 ```bash
   npm run build
+  yarn add
 ```
 
 ```bash
@@ -54,8 +51,8 @@ To deploy this website we use the firebase and heroku.
 
 ## Logo
 
-![Logo](https://i.ibb.co/RNK2V8d/Untitled-1.png)
+![Logo](https://i.ibb.co/Chfd4Nt/logo.png)
 
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/ZG4hG8x/screencapture-localhost-3000-home-2021-10-31-15-38-29-1.png)
+![App Screenshot](https://i.ibb.co/LvyxC7w/screencapture-localhost-3000-home-2021-11-13-22-03-57.png)
