@@ -11,7 +11,7 @@ I'm a Junior developer...
 - This is server side of the smart eye.
 - In this server side we maked some functionality using mongodb server.
 - You can post a review
-- You can add a product which is stored in mogodb altas.
+- You can add a product which is stored in mogodb atlas.
 - You can delet product from server.
 - If admin want he can make another admin, user can't make admin because we make a role named by admin.
 
