@@ -55,4 +55,4 @@ To deploy this website server we use heroku.
 
 ## Screenshots
 
-[App ss](https://i.postimg.cc/43qpMHF4/img-2.png)
+![Photo view home page](https://i.postimg.cc/43qpMHF4/img-2.png)
